@@ -27,24 +27,24 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/gpgga.h>
+#include <infuse_novatel_gps_driver/parsers/gpgga.h>
 #include <boost/make_shared.hpp>
 
 #include <swri_string_util/string_util.h>
 
-const std::string novatel_gps_driver::GpggaParser::MESSAGE_NAME = "GPGGA";
+const std::string infuse_novatel_gps_driver::GpggaParser::MESSAGE_NAME = "GPGGA";
 
-uint32_t novatel_gps_driver::GpggaParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::GpggaParser::GetMessageId() const
 {
   return 0;
 }
 
-const std::string novatel_gps_driver::GpggaParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::GpggaParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::GpggaPtr novatel_gps_driver::GpggaParser::ParseAscii(const novatel_gps_driver::NmeaSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::GpggaPtr infuse_novatel_gps_driver::GpggaParser::ParseAscii(const infuse_novatel_gps_driver::NmeaSentence& sentence) throw(ParseException)
 {
   // Check the length first -- should be 15 elements long
   const size_t MAX_LEN = 15;
@@ -57,7 +57,7 @@ novatel_gps_msgs::GpggaPtr novatel_gps_driver::GpggaParser::ParseAscii(const nov
     throw ParseException(error.str());
   }
 
-  novatel_gps_msgs::GpggaPtr msg = boost::make_shared<novatel_gps_msgs::Gpgga>();
+  infuse_novatel_gps_msgs::GpggaPtr msg = boost::make_shared<infuse_novatel_gps_msgs::Gpgga>();
 
   msg->message_id = sentence.body[0];
 
@@ -125,7 +125,7 @@ novatel_gps_msgs::GpggaPtr novatel_gps_driver::GpggaParser::ParseAscii(const nov
   return msg;
 }
 
-bool novatel_gps_driver::GpggaParser::WasLastGpsValid() const
+bool infuse_novatel_gps_driver::GpggaParser::WasLastGpsValid() const
 {
   return was_last_gps_valid_;
 }

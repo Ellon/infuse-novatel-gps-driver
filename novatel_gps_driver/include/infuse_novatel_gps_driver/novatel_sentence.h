@@ -27,30 +27,24 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_CORRIMUDATA_H
-#define NOVATEL_GPS_DRIVER_CORRIMUDATA_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_NOVATEL_SENTENCE_H
+#define INFUSE_NOVATEL_GPS_DRIVER_NOVATEL_SENTENCE_H
 
-#include <novatel_gps_driver/parsers/message_parser.h>
-#include <novatel_gps_msgs/NovatelCorrectedImuData.h>
+#include <string>
+#include <vector>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
-  class CorrImuDataParser : public MessageParser<novatel_gps_msgs::NovatelCorrectedImuDataPtr>
+  /**
+   * Contains an ASCII NovAtel sentence that has been tokenized into a vector
+   * of strings.
+   */
+  struct NovatelSentence
   {
-  public:
-    uint32_t GetMessageId() const override;
-
-    const std::string GetMessageName() const override;
-
-    novatel_gps_msgs::NovatelCorrectedImuDataPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
-
-    novatel_gps_msgs::NovatelCorrectedImuDataPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
-
-    static constexpr uint16_t MESSAGE_ID = 812;
-    static constexpr size_t BINARY_LENGTH = 60;
-    static constexpr size_t ASCII_FIELDS = 8;
-    static const std::string MESSAGE_NAME;
+    std::string id;
+    std::vector<std::string> header;
+    std::vector<std::string> body;
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_CORRIMUDATA_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_NOVATEL_SENTENCE_H

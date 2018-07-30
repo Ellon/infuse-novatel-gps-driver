@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-project(novatel_gps_driver)
+project(infuse_novatel_gps_driver)
 
 set(DEPS
   diagnostic_msgs 
@@ -8,7 +8,7 @@ set(DEPS
   gps_common
   nav_msgs 
   nodelet 
-  novatel_gps_msgs
+  infuse_novatel_gps_msgs
   roscpp
   sensor_msgs
   std_msgs
@@ -84,12 +84,12 @@ target_link_libraries(${PROJECT_NAME}_nodelets
 set_target_properties(${PROJECT_NAME}_nodelets PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 ### Nodes ###
-swri_nodelet_add_node(novatel_gps_node ${PROJECT_NAME} NovatelGpsNodelet)
-target_link_libraries(novatel_gps_node
+swri_nodelet_add_node(infuse_novatel_gps_node ${PROJECT_NAME} NovatelGpsNodelet)
+target_link_libraries(infuse_novatel_gps_node
   ${catkin_LIBRARIES}
   ${PROJECT_NAME}_nodelets
 )
-set_target_properties(novatel_gps_node PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_target_properties(infuse_novatel_gps_node PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 ### Build unit tests
 if(CATKIN_ENABLE_TESTING)
@@ -99,14 +99,14 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(parser_tests ${PROJECT_NAME})
   set_target_properties(parser_tests PROPERTIES COMPILE_FLAGS "-std=c++11")
 
-  add_rostest_gtest(novatel_gps_tests test/novatel_gps_tests.test test/novatel_gps_tests.cpp)
-  target_link_libraries(novatel_gps_tests ${PROJECT_NAME})
-  set_target_properties(novatel_gps_tests PROPERTIES COMPILE_FLAGS "-std=c++11")
+  add_rostest_gtest(infuse_novatel_gps_tests test/novatel_gps_tests.test test/novatel_gps_tests.cpp)
+  target_link_libraries(infuse_novatel_gps_tests ${PROJECT_NAME})
+  set_target_properties(infuse_novatel_gps_tests PROPERTIES COMPILE_FLAGS "-std=c++11")
 endif()
 
 ### Install Libraries and Headers ###
 install(TARGETS 
-    novatel_gps_node
+    infuse_novatel_gps_node
     ${PROJECT_NAME} 
     ${PROJECT_NAME}_nodelets
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

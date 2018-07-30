@@ -1,6 +1,6 @@
 // *****************************************************************************
 //
-// Copyright (c) 2017, Southwest Research Institute® (SwRI®)
+// Copyright (c) 2018, Southwest Research Institute® (SwRI®)
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,30 +27,32 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_INSPVA_H
-#define NOVATEL_GPS_DRIVER_INSPVA_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_BESTUTM_H
+#define INFUSE_NOVATEL_GPS_DRIVER_BESTUTM_H
 
-#include <novatel_gps_driver/parsers/message_parser.h>
-#include <novatel_gps_msgs/Inspva.h>
+#include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
 
-namespace novatel_gps_driver
+#include <infuse_novatel_gps_driver/parsers/parsing_utils.h>
+#include <infuse_novatel_gps_driver/parsers/message_parser.h>
+
+namespace infuse_novatel_gps_driver
 {
-  class InspvaParser : public MessageParser<novatel_gps_msgs::InspvaPtr>
+  class BestutmParser : public MessageParser<infuse_novatel_gps_msgs::NovatelUtmPositionPtr>
   {
   public:
     uint32_t GetMessageId() const override;
 
     const std::string GetMessageName() const override;
 
-    novatel_gps_msgs::InspvaPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
+    infuse_novatel_gps_msgs::NovatelUtmPositionPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
 
-    novatel_gps_msgs::InspvaPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
+    infuse_novatel_gps_msgs::NovatelUtmPositionPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
 
-    static constexpr uint32_t MESSAGE_ID = 507;
+    static constexpr uint16_t MESSAGE_ID = 726;
+    static constexpr size_t BINARY_LENGTH = 80;
+    static constexpr size_t ASCII_LENGTH = 23;
     static const std::string MESSAGE_NAME;
-    static constexpr size_t BINARY_LENGTH = 88;
-    static constexpr size_t ASCII_FIELDS = 12;
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_INSPVA_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_BESTUTM_H

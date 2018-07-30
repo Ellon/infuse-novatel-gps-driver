@@ -27,25 +27,25 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_GPGSA_H
-#define NOVATEL_GPS_DRIVER_GPGSA_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_GPGSV_H
+#define INFUSE_NOVATEL_GPS_DRIVER_GPGSV_H
 
-#include <novatel_gps_driver/parsers/message_parser.h>
-#include <novatel_gps_msgs/Gpgsa.h>
+#include <infuse_novatel_gps_driver/parsers/message_parser.h>
+#include <infuse_novatel_gps_msgs/Gpgsv.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
-  class GpgsaParser : public MessageParser<novatel_gps_msgs::GpgsaPtr>
+  class GpgsvParser : MessageParser<infuse_novatel_gps_msgs::GpgsvPtr>
   {
   public:
     uint32_t GetMessageId() const override;
 
     const std::string GetMessageName() const override;
 
-    novatel_gps_msgs::GpgsaPtr ParseAscii(const NmeaSentence& sentence) throw(ParseException) override;
+    infuse_novatel_gps_msgs::GpgsvPtr ParseAscii(const NmeaSentence& sentence) throw(ParseException) override;
 
     static const std::string MESSAGE_NAME;
   };
-};
+}
 
-#endif //NOVATEL_GPS_DRIVER_GPGSA_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_GPGSV_H

@@ -27,24 +27,24 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/corrimudata.h>
-#include <novatel_gps_driver/parsers/header.h>
+#include <infuse_novatel_gps_driver/parsers/corrimudata.h>
+#include <infuse_novatel_gps_driver/parsers/header.h>
 #include <boost/make_shared.hpp>
 
-const std::string novatel_gps_driver::CorrImuDataParser::MESSAGE_NAME = "CORRIMUDATA";
+const std::string infuse_novatel_gps_driver::CorrImuDataParser::MESSAGE_NAME = "CORRIMUDATA";
 
-uint32_t novatel_gps_driver::CorrImuDataParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::CorrImuDataParser::GetMessageId() const
 {
   return MESSAGE_ID;
 }
 
-const std::string novatel_gps_driver::CorrImuDataParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::CorrImuDataParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::NovatelCorrectedImuDataPtr
-novatel_gps_driver::CorrImuDataParser::ParseBinary(const novatel_gps_driver::BinaryMessage& bin_msg) throw(ParseException)
+infuse_novatel_gps_msgs::NovatelCorrectedImuDataPtr
+infuse_novatel_gps_driver::CorrImuDataParser::ParseBinary(const infuse_novatel_gps_driver::BinaryMessage& bin_msg) throw(ParseException)
 {
   if (bin_msg.data_.size() != BINARY_LENGTH)
   {
@@ -52,7 +52,7 @@ novatel_gps_driver::CorrImuDataParser::ParseBinary(const novatel_gps_driver::Bin
     error << "Unexpected corrimudata message size: " << bin_msg.data_.size();
     throw ParseException(error.str());
   }
-  novatel_gps_msgs::NovatelCorrectedImuDataPtr ros_msg = boost::make_shared<novatel_gps_msgs::NovatelCorrectedImuData>();
+  infuse_novatel_gps_msgs::NovatelCorrectedImuDataPtr ros_msg = boost::make_shared<infuse_novatel_gps_msgs::NovatelCorrectedImuData>();
   HeaderParser h_parser;
   ros_msg->novatel_msg_header = h_parser.ParseBinary(bin_msg);
   ros_msg->novatel_msg_header.message_name = "CORRIMUDATA";
@@ -69,8 +69,8 @@ novatel_gps_driver::CorrImuDataParser::ParseBinary(const novatel_gps_driver::Bin
   return ros_msg;
 }
 
-novatel_gps_msgs::NovatelCorrectedImuDataPtr
-novatel_gps_driver::CorrImuDataParser::ParseAscii(const novatel_gps_driver::NovatelSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::NovatelCorrectedImuDataPtr
+infuse_novatel_gps_driver::CorrImuDataParser::ParseAscii(const infuse_novatel_gps_driver::NovatelSentence& sentence) throw(ParseException)
 {
   if (sentence.body.size() != ASCII_FIELDS)
   {
@@ -78,7 +78,7 @@ novatel_gps_driver::CorrImuDataParser::ParseAscii(const novatel_gps_driver::Nova
     error << "Unexpected number of fields in CORRIMUDATA log: " << sentence.body.size();
     throw ParseException(error.str());
   }
-  novatel_gps_msgs::NovatelCorrectedImuDataPtr msg = boost::make_shared<novatel_gps_msgs::NovatelCorrectedImuData>();
+  infuse_novatel_gps_msgs::NovatelCorrectedImuDataPtr msg = boost::make_shared<infuse_novatel_gps_msgs::NovatelCorrectedImuData>();
   HeaderParser h_parser;
   msg->novatel_msg_header = h_parser.ParseAscii(sentence);
 

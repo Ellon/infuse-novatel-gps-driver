@@ -27,22 +27,22 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/gpgsv.h>
+#include <infuse_novatel_gps_driver/parsers/gpgsv.h>
 #include <boost/make_shared.hpp>
 
-const std::string novatel_gps_driver::GpgsvParser::MESSAGE_NAME = "GPGSV";
+const std::string infuse_novatel_gps_driver::GpgsvParser::MESSAGE_NAME = "GPGSV";
 
-uint32_t novatel_gps_driver::GpgsvParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::GpgsvParser::GetMessageId() const
 {
   return 0;
 }
 
-const std::string novatel_gps_driver::GpgsvParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::GpgsvParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::GpgsvPtr novatel_gps_driver::GpgsvParser::ParseAscii(const novatel_gps_driver::NmeaSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::GpgsvPtr infuse_novatel_gps_driver::GpgsvParser::ParseAscii(const infuse_novatel_gps_driver::NmeaSentence& sentence) throw(ParseException)
 {
   const size_t MIN_LENGTH = 4;
   // Check that the message is at least as long as a a GPGSV with no satellites
@@ -53,7 +53,7 @@ novatel_gps_msgs::GpgsvPtr novatel_gps_driver::GpgsvParser::ParseAscii(const nov
           << ", actual length = " << sentence.body.size();
     throw ParseException(error.str());
   }
-  novatel_gps_msgs::GpgsvPtr msg = boost::make_shared<novatel_gps_msgs::Gpgsv>();
+  infuse_novatel_gps_msgs::GpgsvPtr msg = boost::make_shared<infuse_novatel_gps_msgs::Gpgsv>();
   msg->message_id = sentence.body[0];
   if (!ParseUInt8(sentence.body[1], msg->n_msgs))
   {

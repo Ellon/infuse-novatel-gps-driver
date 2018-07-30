@@ -27,7 +27,7 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/novatel_message_extractor.h>
+#include <infuse_novatel_gps_driver/novatel_message_extractor.h>
 
 #include <limits>
 #include <sstream>
@@ -38,11 +38,11 @@
 #include <ros/ros.h>
 
 #include <swri_string_util/string_util.h>
-#include <novatel_gps_driver/parsers/header.h>
-#include <novatel_gps_driver/parsers/gpgga.h>
-#include <novatel_gps_driver/parsers/gprmc.h>
+#include <infuse_novatel_gps_driver/parsers/header.h>
+#include <infuse_novatel_gps_driver/parsers/gpgga.h>
+#include <infuse_novatel_gps_driver/parsers/gprmc.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
   const std::string NovatelMessageExtractor::CHECKSUM_FLAG = "*";
   const std::string NovatelMessageExtractor::FIELD_SEPARATOR = ",";
@@ -543,8 +543,8 @@ namespace novatel_gps_driver
   }
 
   void NovatelMessageExtractor::GetGpsFixMessage(
-      const novatel_gps_msgs::Gprmc& gprmc,
-      const novatel_gps_msgs::Gpgga& gpgga,
+      const infuse_novatel_gps_msgs::Gprmc& gprmc,
+      const infuse_novatel_gps_msgs::Gpgga& gpgga,
       gps_common::GPSFixPtr gps_fix)
   {
     gps_fix->header.stamp = gpgga.header.stamp;

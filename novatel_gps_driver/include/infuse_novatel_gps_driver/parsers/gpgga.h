@@ -27,25 +27,33 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_GPGSV_H
-#define NOVATEL_GPS_DRIVER_GPGSV_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_GPGGA_H
+#define INFUSE_NOVATEL_GPS_DRIVER_GPGGA_H
 
-#include <novatel_gps_driver/parsers/message_parser.h>
-#include <novatel_gps_msgs/Gpgsv.h>
+#include <infuse_novatel_gps_driver/parsers/message_parser.h>
+#include <infuse_novatel_gps_msgs/Gpgga.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
-  class GpgsvParser : MessageParser<novatel_gps_msgs::GpgsvPtr>
+  class GpggaParser : public MessageParser<infuse_novatel_gps_msgs::GpggaPtr>
   {
   public:
+    GpggaParser(): MessageParser<infuse_novatel_gps_msgs::GpggaPtr>(),
+                   was_last_gps_valid_(false)
+    {}
     uint32_t GetMessageId() const override;
 
     const std::string GetMessageName() const override;
 
-    novatel_gps_msgs::GpgsvPtr ParseAscii(const NmeaSentence& sentence) throw(ParseException) override;
+    infuse_novatel_gps_msgs::GpggaPtr ParseAscii(const NmeaSentence& sentence) throw(ParseException) override;
+
+    bool WasLastGpsValid() const;
 
     static const std::string MESSAGE_NAME;
+
+  private:
+    bool was_last_gps_valid_;
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_GPGSV_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_GPGGA_H

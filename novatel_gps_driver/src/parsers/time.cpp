@@ -27,22 +27,22 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/time.h>
+#include <infuse_novatel_gps_driver/parsers/time.h>
 #include <boost/make_shared.hpp>
 
-const std::string novatel_gps_driver::TimeParser::MESSAGE_NAME = "TIME";
+const std::string infuse_novatel_gps_driver::TimeParser::MESSAGE_NAME = "TIME";
 
-uint32_t novatel_gps_driver::TimeParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::TimeParser::GetMessageId() const
 {
   return MESSAGE_ID;
 }
 
-const std::string novatel_gps_driver::TimeParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::TimeParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::TimePtr novatel_gps_driver::TimeParser::ParseBinary(const novatel_gps_driver::BinaryMessage& msg) throw(ParseException)
+infuse_novatel_gps_msgs::TimePtr infuse_novatel_gps_driver::TimeParser::ParseBinary(const infuse_novatel_gps_driver::BinaryMessage& msg) throw(ParseException)
 {
   if (msg.data_.size() != BINARY_LENGTH)
   {
@@ -51,7 +51,7 @@ novatel_gps_msgs::TimePtr novatel_gps_driver::TimeParser::ParseBinary(const nova
     throw ParseException(error.str());
   }
 
-  novatel_gps_msgs::TimePtr ros_msg = boost::make_shared<novatel_gps_msgs::Time>();
+  infuse_novatel_gps_msgs::TimePtr ros_msg = boost::make_shared<infuse_novatel_gps_msgs::Time>();
 
   uint32_t clock_status = ParseUInt32(&msg.data_[0]);
   switch (clock_status)
@@ -107,10 +107,10 @@ novatel_gps_msgs::TimePtr novatel_gps_driver::TimeParser::ParseBinary(const nova
   return ros_msg;
 }
 
-novatel_gps_msgs::TimePtr
-novatel_gps_driver::TimeParser::ParseAscii(const novatel_gps_driver::NovatelSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::TimePtr
+infuse_novatel_gps_driver::TimeParser::ParseAscii(const infuse_novatel_gps_driver::NovatelSentence& sentence) throw(ParseException)
 {
-  novatel_gps_msgs::TimePtr msg = boost::make_shared<novatel_gps_msgs::Time>();
+  infuse_novatel_gps_msgs::TimePtr msg = boost::make_shared<infuse_novatel_gps_msgs::Time>();
   if (sentence.body.size() != ASCII_FIELD)
   {
     std::stringstream error;

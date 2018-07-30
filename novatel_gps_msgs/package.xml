@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>novatel_gps_msgs</name>
+  <name>infuse_novatel_gps_msgs</name>
   <version>3.5.0</version>
   <description>
   Messages for proprietary (non-NMEA) sentences from Novatel GPS receivers.

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <package format="2">
-  <name>novatel_gps_driver</name>
+  <name>infuse_novatel_gps_driver</name>
   <version>3.5.0</version>
   <description>
   Driver for NovAtel receivers
@@ -19,7 +19,7 @@
   <depend>libpcap</depend>
   <depend>nav_msgs</depend>
   <depend>nodelet</depend>
-  <depend>novatel_gps_msgs</depend>
+  <depend>infuse_novatel_gps_msgs</depend>
   <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>

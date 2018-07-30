@@ -50,7 +50,7 @@ Changelog for package novatel_oem628
 
 3.0.0 (2017-04-03)
 ------------------
-* Rename novatel_msgs to novatel_gps_msgs
+* Rename novatel_msgs to infuse_novatel_gps_msgs
 * Fix catkin_lint warnings
 * Add novatel_msgs as a dep to novatel_oem628
 * Add support for Novatel Trackstat messages

@@ -27,19 +27,19 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_MESSAGE_PARSER_H
-#define NOVATEL_GPS_DRIVER_MESSAGE_PARSER_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_MESSAGE_PARSER_H
+#define INFUSE_NOVATEL_GPS_DRIVER_MESSAGE_PARSER_H
 
-#include <novatel_gps_driver/binary_message.h>
-#include <novatel_gps_driver/nmea_sentence.h>
-#include <novatel_gps_driver/novatel_sentence.h>
+#include <infuse_novatel_gps_driver/binary_message.h>
+#include <infuse_novatel_gps_driver/nmea_sentence.h>
+#include <infuse_novatel_gps_driver/novatel_sentence.h>
 
-#include <novatel_gps_driver/parsers/parsing_utils.h>
-#include <novatel_gps_driver/parsers/parse_exception.h>
+#include <infuse_novatel_gps_driver/parsers/parsing_utils.h>
+#include <infuse_novatel_gps_driver/parsers/parse_exception.h>
 
 #include <stdint.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
   /**
    * Base class for converting extracted NMEA and NovAtel sentences into ROS
@@ -112,4 +112,4 @@ namespace novatel_gps_driver
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_MESSAGE_PARSER_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_MESSAGE_PARSER_H

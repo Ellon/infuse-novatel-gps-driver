@@ -27,25 +27,25 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/range.h>
-#include <novatel_gps_driver/parsers/header.h>
+#include <infuse_novatel_gps_driver/parsers/range.h>
+#include <infuse_novatel_gps_driver/parsers/header.h>
 
 #include <boost/make_shared.hpp>
 
-const std::string novatel_gps_driver::RangeParser::MESSAGE_NAME = "RANGE";
+const std::string infuse_novatel_gps_driver::RangeParser::MESSAGE_NAME = "RANGE";
 
-uint32_t novatel_gps_driver::RangeParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::RangeParser::GetMessageId() const
 {
   return MESSAGE_ID;
 }
 
-const std::string novatel_gps_driver::RangeParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::RangeParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::RangePtr
-novatel_gps_driver::RangeParser::ParseBinary(const novatel_gps_driver::BinaryMessage& bin_msg) throw(ParseException)
+infuse_novatel_gps_msgs::RangePtr
+infuse_novatel_gps_driver::RangeParser::ParseBinary(const infuse_novatel_gps_driver::BinaryMessage& bin_msg) throw(ParseException)
 {
   uint32_t num_obs = ParseUInt32(&bin_msg.data_[0]);
   if (bin_msg.data_.size() != (BINARY_OBSERVATION_SIZE * num_obs) + 4)
@@ -54,7 +54,7 @@ novatel_gps_driver::RangeParser::ParseBinary(const novatel_gps_driver::BinaryMes
     error << "Unexpected range message size: " << bin_msg.data_.size();
     throw ParseException(error.str());
   }
-  novatel_gps_msgs::RangePtr ros_msg = boost::make_shared<novatel_gps_msgs::Range>();
+  infuse_novatel_gps_msgs::RangePtr ros_msg = boost::make_shared<infuse_novatel_gps_msgs::Range>();
   HeaderParser h_parser;
   ros_msg->novatel_msg_header = h_parser.ParseBinary(bin_msg);
   ros_msg->novatel_msg_header.message_name = "RANGE";
@@ -65,7 +65,7 @@ novatel_gps_driver::RangeParser::ParseBinary(const novatel_gps_driver::BinaryMes
   {
     size_t obs_offset = 4 + i * BINARY_OBSERVATION_SIZE;
 
-    novatel_gps_msgs::RangeInformation info;
+    infuse_novatel_gps_msgs::RangeInformation info;
 
     info.prn_number = ParseUInt16(&bin_msg.data_[obs_offset]);
     info.glofreq = ParseUInt16(&bin_msg.data_[obs_offset+2]);
@@ -83,10 +83,10 @@ novatel_gps_driver::RangeParser::ParseBinary(const novatel_gps_driver::BinaryMes
   return ros_msg;
 }
 
-novatel_gps_msgs::RangePtr
-novatel_gps_driver::RangeParser::ParseAscii(const novatel_gps_driver::NovatelSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::RangePtr
+infuse_novatel_gps_driver::RangeParser::ParseAscii(const infuse_novatel_gps_driver::NovatelSentence& sentence) throw(ParseException)
 {
-  novatel_gps_msgs::RangePtr msg = boost::make_shared<novatel_gps_msgs::Range>();
+  infuse_novatel_gps_msgs::RangePtr msg = boost::make_shared<infuse_novatel_gps_msgs::Range>();
   HeaderParser h_parser;
   msg->novatel_msg_header = h_parser.ParseAscii(sentence);
   if (!ParseInt32(sentence.body[0], msg->numb_of_observ, 10))

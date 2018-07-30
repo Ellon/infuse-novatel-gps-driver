@@ -27,13 +27,13 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/bestutm.h>
+#include <infuse_novatel_gps_driver/parsers/bestutm.h>
 
-#include <novatel_gps_driver/parsers/header.h>
+#include <infuse_novatel_gps_driver/parsers/header.h>
 
 #include <boost/make_shared.hpp>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
   const std::string BestutmParser::MESSAGE_NAME = "BESTUTM";
 
@@ -47,7 +47,7 @@ namespace novatel_gps_driver
     return MESSAGE_NAME;
   }
 
-  novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
+  infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
   {
     if (bin_msg.data_.size() != BINARY_LENGTH)
     {
@@ -55,8 +55,8 @@ namespace novatel_gps_driver
       error << "Unexpected BESTUTM message length: " << bin_msg.data_.size();
       throw ParseException(error.str());
     }
-    novatel_gps_msgs::NovatelUtmPositionPtr ros_msg =
-        boost::make_shared<novatel_gps_msgs::NovatelUtmPosition>();
+    infuse_novatel_gps_msgs::NovatelUtmPositionPtr ros_msg =
+        boost::make_shared<infuse_novatel_gps_msgs::NovatelUtmPosition>();
     HeaderParser header_parser;
     ros_msg->novatel_msg_header = header_parser.ParseBinary(bin_msg);
     ros_msg->novatel_msg_header.message_name = MESSAGE_NAME;
@@ -109,10 +109,10 @@ namespace novatel_gps_driver
     return ros_msg;
   }
 
-  novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
+  infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
   {
-    novatel_gps_msgs::NovatelUtmPositionPtr msg =
-        boost::make_shared<novatel_gps_msgs::NovatelUtmPosition>();
+    infuse_novatel_gps_msgs::NovatelUtmPositionPtr msg =
+        boost::make_shared<infuse_novatel_gps_msgs::NovatelUtmPosition>();
     HeaderParser h_parser;
     msg->novatel_msg_header = h_parser.ParseAscii(sentence);
 

@@ -27,24 +27,24 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/inscov.h>
-#include <novatel_gps_driver/parsers/header.h>
+#include <infuse_novatel_gps_driver/parsers/inscov.h>
+#include <infuse_novatel_gps_driver/parsers/header.h>
 #include <boost/make_shared.hpp>
 
-const std::string novatel_gps_driver::InscovParser::MESSAGE_NAME = "INSCOV";
+const std::string infuse_novatel_gps_driver::InscovParser::MESSAGE_NAME = "INSCOV";
 
-uint32_t novatel_gps_driver::InscovParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::InscovParser::GetMessageId() const
 {
   return MESSAGE_ID;
 }
 
-const std::string novatel_gps_driver::InscovParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::InscovParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::InscovPtr
-novatel_gps_driver::InscovParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
+infuse_novatel_gps_msgs::InscovPtr
+infuse_novatel_gps_driver::InscovParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
 {
   if (bin_msg.data_.size() != BINARY_LENGTH)
   {
@@ -52,7 +52,7 @@ novatel_gps_driver::InscovParser::ParseBinary(const BinaryMessage& bin_msg) thro
     error << "Unexpected inscov message size: " << bin_msg.data_.size();
     throw ParseException(error.str());
   }
-  novatel_gps_msgs::InscovPtr ros_msg = boost::make_shared<novatel_gps_msgs::Inscov>();
+  infuse_novatel_gps_msgs::InscovPtr ros_msg = boost::make_shared<infuse_novatel_gps_msgs::Inscov>();
   HeaderParser h_parser;
   ros_msg->novatel_msg_header = h_parser.ParseBinary(bin_msg);
   ros_msg->novatel_msg_header.message_name = GetMessageName();
@@ -75,8 +75,8 @@ novatel_gps_driver::InscovParser::ParseBinary(const BinaryMessage& bin_msg) thro
   return ros_msg;
 }
 
-novatel_gps_msgs::InscovPtr
-novatel_gps_driver::InscovParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::InscovPtr
+infuse_novatel_gps_driver::InscovParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
 {
   if (sentence.body.size() != ASCII_FIELDS)
   {
@@ -84,7 +84,7 @@ novatel_gps_driver::InscovParser::ParseAscii(const NovatelSentence& sentence) th
     error << "Unexpected number of fields in INSCOV log: " << sentence.body.size();
     throw ParseException(error.str());
   }
-  novatel_gps_msgs::InscovPtr ros_msg = boost::make_shared<novatel_gps_msgs::Inscov>();
+  infuse_novatel_gps_msgs::InscovPtr ros_msg = boost::make_shared<infuse_novatel_gps_msgs::Inscov>();
   HeaderParser h_parser;
   ros_msg->novatel_msg_header = h_parser.ParseAscii(sentence);
 

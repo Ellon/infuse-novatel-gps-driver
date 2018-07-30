@@ -27,23 +27,23 @@
 //
 // *****************************************************************************
 
-#include <novatel_gps_driver/parsers/gprmc.h>
+#include <infuse_novatel_gps_driver/parsers/gprmc.h>
 #include <boost/make_shared.hpp>
 #include <swri_string_util/string_util.h>
 
-const std::string novatel_gps_driver::GprmcParser::MESSAGE_NAME = "GPRMC";
+const std::string infuse_novatel_gps_driver::GprmcParser::MESSAGE_NAME = "GPRMC";
 
-uint32_t novatel_gps_driver::GprmcParser::GetMessageId() const
+uint32_t infuse_novatel_gps_driver::GprmcParser::GetMessageId() const
 {
   return 0;
 }
 
-const std::string novatel_gps_driver::GprmcParser::GetMessageName() const
+const std::string infuse_novatel_gps_driver::GprmcParser::GetMessageName() const
 {
   return MESSAGE_NAME;
 }
 
-novatel_gps_msgs::GprmcPtr novatel_gps_driver::GprmcParser::ParseAscii(const novatel_gps_driver::NmeaSentence& sentence) throw(ParseException)
+infuse_novatel_gps_msgs::GprmcPtr infuse_novatel_gps_driver::GprmcParser::ParseAscii(const infuse_novatel_gps_driver::NmeaSentence& sentence) throw(ParseException)
 {
   // Check the length first; should be 13 elements long for OEM6 & 7,
   // but only 12 elements for OEM4.
@@ -62,7 +62,7 @@ novatel_gps_msgs::GprmcPtr novatel_gps_driver::GprmcParser::ParseAscii(const nov
   }
 
   bool success = true;
-  novatel_gps_msgs::GprmcPtr msg = boost::make_shared<novatel_gps_msgs::Gprmc>();
+  infuse_novatel_gps_msgs::GprmcPtr msg = boost::make_shared<infuse_novatel_gps_msgs::Gprmc>();
   msg->message_id = sentence.body[0];
 
   if (sentence.body[1].empty() || sentence.body[1] == "0")
@@ -129,7 +129,7 @@ novatel_gps_msgs::GprmcPtr novatel_gps_driver::GprmcParser::ParseAscii(const nov
   return msg;
 }
 
-bool novatel_gps_driver::GprmcParser::WasLastGpsValid() const
+bool infuse_novatel_gps_driver::GprmcParser::WasLastGpsValid() const
 {
   return was_last_gps_valid_;
 }

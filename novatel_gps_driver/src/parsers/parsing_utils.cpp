@@ -29,17 +29,17 @@
 
 #include <swri_string_util/string_util.h>
 
-#include <novatel_gps_driver/parsers/parsing_utils.h>
-#include <novatel_gps_msgs/NovatelExtendedSolutionStatus.h>
-#include <novatel_gps_msgs/NovatelSignalMask.h>
+#include <infuse_novatel_gps_driver/parsers/parsing_utils.h>
+#include <infuse_novatel_gps_msgs/NovatelExtendedSolutionStatus.h>
+#include <infuse_novatel_gps_msgs/NovatelSignalMask.h>
 
 #include <ros/ros.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
   void GetNovatelReceiverStatusMessage(
       uint32_t status,
-      novatel_gps_msgs::NovatelReceiverStatus& receiver_status_msg)
+      infuse_novatel_gps_msgs::NovatelReceiverStatus& receiver_status_msg)
   {
     receiver_status_msg.original_status_code = status;
     receiver_status_msg.error_flag = status & 0x00000001;
@@ -69,7 +69,7 @@ namespace novatel_gps_driver
 
   void GetExtendedSolutionStatusMessage(
       uint32_t status,
-      novatel_gps_msgs::NovatelExtendedSolutionStatus& msg)
+      infuse_novatel_gps_msgs::NovatelExtendedSolutionStatus& msg)
   {
     msg.original_mask = status;
     msg.advance_rtk_verified = 0x01 & status;
@@ -100,7 +100,7 @@ namespace novatel_gps_driver
     }
   }
 
-  void GetSignalsUsed(uint32_t mask, novatel_gps_msgs::NovatelSignalMask& msg)
+  void GetSignalsUsed(uint32_t mask, infuse_novatel_gps_msgs::NovatelSignalMask& msg)
   {
     msg.original_mask = mask;
     msg.gps_L1_used_in_solution = mask & 0x01;

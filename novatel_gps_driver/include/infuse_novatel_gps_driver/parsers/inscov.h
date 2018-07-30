@@ -27,22 +27,30 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_PARSE_EXCEPTION_H
-#define NOVATEL_GPS_DRIVER_PARSE_EXCEPTION_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_INSCOV_H
+#define INFUSE_NOVATEL_GPS_DRIVER_INSCOV_H
 
-#include <exception>
+#include <infuse_novatel_gps_msgs/Inscov.h>
+#include <infuse_novatel_gps_driver/parsers/message_parser.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
-  /**
-   * Thrown whenever a parser class has an unrecoverable issue  parsing a message.
-   */
-  class ParseException : public std::runtime_error
+  class InscovParser : public MessageParser<infuse_novatel_gps_msgs::InscovPtr>
   {
   public:
-    ParseException(const std::string& error) : std::runtime_error(error)
-    {}
+    uint32_t GetMessageId() const override;
+
+    const std::string GetMessageName() const override;
+
+    infuse_novatel_gps_msgs::InscovPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
+
+    infuse_novatel_gps_msgs::InscovPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
+
+    static constexpr uint32_t MESSAGE_ID = 264;
+    static const std::string MESSAGE_NAME;
+    static constexpr size_t BINARY_LENGTH = 228;
+    static constexpr size_t ASCII_FIELDS = 29;
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_PARSE_EXCEPTION_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_INSCOV_H

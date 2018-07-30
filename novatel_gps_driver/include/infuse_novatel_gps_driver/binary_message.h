@@ -27,22 +27,24 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_NMEA_SENTENCE_H
-#define NOVATEL_GPS_DRIVER_NMEA_SENTENCE_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_BINARY_MESSAGE_H
+#define INFUSE_NOVATEL_GPS_DRIVER_BINARY_MESSAGE_H
 
-#include <string>
+#include <infuse_novatel_gps_driver/binary_header.h>
+
 #include <vector>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
   /**
-   * Contains an NMEA sentence that has been tokenized into a vector of strings.
+   * Contains the header, raw data bytes, and CRC of a binary NovAtel message.
    */
-  struct NmeaSentence
+  struct BinaryMessage
   {
-    std::string id;
-    std::vector<std::string> body;
+    BinaryHeader header_;
+    std::vector<uint8_t> data_;
+    uint32_t crc_;
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_NMEA_SENTENCE_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_BINARY_MESSAGE_H

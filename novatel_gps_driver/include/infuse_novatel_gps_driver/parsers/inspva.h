@@ -27,30 +27,30 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_INSCOV_H
-#define NOVATEL_GPS_DRIVER_INSCOV_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_INSPVA_H
+#define INFUSE_NOVATEL_GPS_DRIVER_INSPVA_H
 
-#include <novatel_gps_msgs/Inscov.h>
-#include <novatel_gps_driver/parsers/message_parser.h>
+#include <infuse_novatel_gps_driver/parsers/message_parser.h>
+#include <infuse_novatel_gps_msgs/Inspva.h>
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
-  class InscovParser : public MessageParser<novatel_gps_msgs::InscovPtr>
+  class InspvaParser : public MessageParser<infuse_novatel_gps_msgs::InspvaPtr>
   {
   public:
     uint32_t GetMessageId() const override;
 
     const std::string GetMessageName() const override;
 
-    novatel_gps_msgs::InscovPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
+    infuse_novatel_gps_msgs::InspvaPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
 
-    novatel_gps_msgs::InscovPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
+    infuse_novatel_gps_msgs::InspvaPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
 
-    static constexpr uint32_t MESSAGE_ID = 264;
+    static constexpr uint32_t MESSAGE_ID = 507;
     static const std::string MESSAGE_NAME;
-    static constexpr size_t BINARY_LENGTH = 228;
-    static constexpr size_t ASCII_FIELDS = 29;
+    static constexpr size_t BINARY_LENGTH = 88;
+    static constexpr size_t ASCII_FIELDS = 12;
   };
 }
 
-#endif //NOVATEL_GPS_DRIVER_INSCOV_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_INSPVA_H

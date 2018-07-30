@@ -1,5 +1,5 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package novatel_gps_msgs
+Changelog for package infuse_novatel_gps_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 3.5.0 (2018-07-17)
@@ -31,7 +31,7 @@ Changelog for package novatel_gps_msgs
 
 3.0.0 (2017-04-03)
 ------------------
-* Rename novatel_msgs to novatel_gps_msgs
+* Rename novatel_msgs to infuse_novatel_gps_msgs
 * Contributors: P. J. Reed
 
 2.9.0 (2017-01-11)

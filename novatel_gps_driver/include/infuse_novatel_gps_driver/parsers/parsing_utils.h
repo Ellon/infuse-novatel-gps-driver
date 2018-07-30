@@ -27,14 +27,14 @@
 //
 // *****************************************************************************
 
-#ifndef NOVATEL_GPS_DRIVER_BASE_PARSER_H
-#define NOVATEL_GPS_DRIVER_BASE_PARSER_H
+#ifndef INFUSE_NOVATEL_GPS_DRIVER_BASE_PARSER_H
+#define INFUSE_NOVATEL_GPS_DRIVER_BASE_PARSER_H
 
-#include <novatel_gps_msgs/NovatelMessageHeader.h>
+#include <infuse_novatel_gps_msgs/NovatelMessageHeader.h>
 
-#include <novatel_gps_msgs/NovatelExtendedSolutionStatus.h>
+#include <infuse_novatel_gps_msgs/NovatelExtendedSolutionStatus.h>
 
-#include <novatel_gps_msgs/NovatelSignalMask.h>
+#include <infuse_novatel_gps_msgs/NovatelSignalMask.h>
 
 #include <stdint.h>
 
@@ -42,7 +42,7 @@
  * Utility functions, structures, and constants used when parsing messages.
  */
 
-namespace novatel_gps_driver
+namespace infuse_novatel_gps_driver
 {
   const size_t NOVATEL_MESSAGE_HEADER_LENGTH = 10;
 
@@ -117,16 +117,16 @@ namespace novatel_gps_driver
 
   void GetExtendedSolutionStatusMessage(
       uint32_t status,
-      novatel_gps_msgs::NovatelExtendedSolutionStatus& msg);
+      infuse_novatel_gps_msgs::NovatelExtendedSolutionStatus& msg);
 
 
   void GetNovatelReceiverStatusMessage(
       uint32_t status,
-      novatel_gps_msgs::NovatelReceiverStatus& receiver_status_msg);
+      infuse_novatel_gps_msgs::NovatelReceiverStatus& receiver_status_msg);
 
   void GetSignalsUsed(
       uint32_t mask,
-      novatel_gps_msgs::NovatelSignalMask& msg);
+      infuse_novatel_gps_msgs::NovatelSignalMask& msg);
 
   /**
    * @brief Converts a buffer containing 8 bytes into a double.
@@ -265,4 +265,4 @@ namespace novatel_gps_driver
   double UtcFloatToSeconds(double utc_float);
 }
 
-#endif //NOVATEL_GPS_DRIVER_BASE_PARSER_H
+#endif //INFUSE_NOVATEL_GPS_DRIVER_BASE_PARSER_H
