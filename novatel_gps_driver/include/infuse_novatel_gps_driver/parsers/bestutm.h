@@ -30,23 +30,27 @@
 #ifndef INFUSE_NOVATEL_GPS_DRIVER_BESTUTM_H
 #define INFUSE_NOVATEL_GPS_DRIVER_BESTUTM_H
 
-#include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
+// #include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
+#include <infuse_msgs/asn1_bitstream.h>
 
 #include <infuse_novatel_gps_driver/parsers/parsing_utils.h>
 #include <infuse_novatel_gps_driver/parsers/message_parser.h>
 
 namespace infuse_novatel_gps_driver
 {
-  class BestutmParser : public MessageParser<infuse_novatel_gps_msgs::NovatelUtmPositionPtr>
+  // class BestutmParser : public MessageParser<infuse_novatel_gps_msgs::NovatelUtmPositionPtr>
+  class BestutmParser : public MessageParser<infuse_msgs::asn1_bitstreamPtr>
   {
   public:
     uint32_t GetMessageId() const override;
 
     const std::string GetMessageName() const override;
 
-    infuse_novatel_gps_msgs::NovatelUtmPositionPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
+    // infuse_novatel_gps_msgs::NovatelUtmPositionPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
+    infuse_msgs::asn1_bitstreamPtr ParseBinary(const BinaryMessage& bin_msg) throw(ParseException) override;
 
-    infuse_novatel_gps_msgs::NovatelUtmPositionPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
+    // infuse_novatel_gps_msgs::NovatelUtmPositionPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
+    infuse_msgs::asn1_bitstreamPtr ParseAscii(const NovatelSentence& sentence) throw(ParseException) override;
 
     static constexpr uint16_t MESSAGE_ID = 726;
     static constexpr size_t BINARY_LENGTH = 80;

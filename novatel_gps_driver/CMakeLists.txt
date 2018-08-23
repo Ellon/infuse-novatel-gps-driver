@@ -17,6 +17,7 @@ set(DEPS
   swri_serial_util
   swri_string_util 
   tf
+  infuse_msgs
 )
 
 set(BUILD_DEPENDS
@@ -27,6 +28,8 @@ set(BUILD_DEPENDS
 find_package(catkin REQUIRED COMPONENTS ${BUILD_DEPENDS})
 
 find_package(Boost REQUIRED COMPONENTS system)
+
+find_package(infuse_asn1_types REQUIRED)
 
 include_directories(include
   ${catkin_INCLUDE_DIRS}
@@ -70,6 +73,7 @@ target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${libpcap_LIBRARIES}
+  infuse_asn1_types::infuse_asn1_types
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-std=c++11")
 

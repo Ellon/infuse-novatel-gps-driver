@@ -51,7 +51,10 @@
 #include <infuse_novatel_gps_msgs/Insstdev.h>
 #include <infuse_novatel_gps_msgs/NovatelCorrectedImuData.h>
 #include <infuse_novatel_gps_msgs/NovatelPosition.h>
-#include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
+
+// #include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
+#include <infuse_msgs/asn1_bitstream.h>
+
 #include <infuse_novatel_gps_msgs/NovatelVelocity.h>
 #include <infuse_novatel_gps_msgs/Range.h>
 #include <infuse_novatel_gps_msgs/Time.h>
@@ -201,7 +204,10 @@ namespace infuse_novatel_gps_driver
        * last time this was called.
        * @param[out] positions New BESTUTM messages.
        */
-      void GetNovatelUtmPositions(std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr>& utm_positions);
+      // void GetNovatelUtmPositions(std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr>& utm_positions);
+      void GetNovatelUtmPositions(std::vector<infuse_msgs::asn1_bitstreamPtr>& utm_positions);
+
+
       /**
        * @brief Provides any BESTVEL messages that have been received since the
        * last time this was called.
@@ -452,7 +458,8 @@ namespace infuse_novatel_gps_driver
       boost::circular_buffer<infuse_novatel_gps_msgs::InspvaPtr> inspva_msgs_;
       boost::circular_buffer<infuse_novatel_gps_msgs::InsstdevPtr> insstdev_msgs_;
       boost::circular_buffer<infuse_novatel_gps_msgs::NovatelPositionPtr> novatel_positions_;
-      boost::circular_buffer<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> novatel_utm_positions_;
+      // boost::circular_buffer<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> novatel_utm_positions_;
+      boost::circular_buffer<infuse_msgs::asn1_bitstreamPtr> novatel_utm_positions_;
       boost::circular_buffer<infuse_novatel_gps_msgs::NovatelVelocityPtr> novatel_velocities_;
       boost::circular_buffer<infuse_novatel_gps_msgs::NovatelPositionPtr> position_sync_buffer_;
       boost::circular_buffer<infuse_novatel_gps_msgs::RangePtr> range_msgs_;

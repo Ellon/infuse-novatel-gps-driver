@@ -145,7 +145,10 @@
 #include <infuse_novatel_gps_msgs/NovatelFRESET.h>
 #include <infuse_novatel_gps_msgs/NovatelMessageHeader.h>
 #include <infuse_novatel_gps_msgs/NovatelPosition.h>
-#include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
+
+// #include <infuse_novatel_gps_msgs/NovatelUtmPosition.h>
+#include <infuse_msgs/asn1_bitstream.h>
+
 #include <infuse_novatel_gps_msgs/NovatelVelocity.h>
 #include <infuse_novatel_gps_msgs/Gpgga.h>
 #include <infuse_novatel_gps_msgs/Gprmc.h>
@@ -293,7 +296,8 @@ namespace infuse_novatel_gps_driver
 
       if (publish_novatel_utm_positions_)
       { 
-        novatel_utm_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelUtmPosition>(node, "bestutm", 100);
+        // novatel_utm_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelUtmPosition>(node, "bestutm", 100);
+        novatel_utm_pub_ = swri::advertise<infuse_msgs::asn1_bitstream>(node, "bestutm_infuse", 100);
       }
 
       if (publish_novatel_velocity_)
@@ -617,7 +621,8 @@ namespace infuse_novatel_gps_driver
     void CheckDeviceForData()
     {
       std::vector<infuse_novatel_gps_msgs::NovatelPositionPtr> position_msgs;
-      std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> utm_msgs;
+      // std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> utm_msgs;
+      std::vector<infuse_msgs::asn1_bitstreamPtr> utm_msgs;
       std::vector<gps_common::GPSFixPtr> fix_msgs;
       std::vector<infuse_novatel_gps_msgs::GpggaPtr> gpgga_msgs;
       std::vector<infuse_novatel_gps_msgs::GprmcPtr> gprmc_msgs;
