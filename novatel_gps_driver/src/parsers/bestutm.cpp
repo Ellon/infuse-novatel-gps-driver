@@ -78,7 +78,7 @@ namespace infuse_novatel_gps_driver
     asn1Transform.metadata.parentTime.microseconds = timeNow;
     asn1Transform.metadata.parentTime.usecPerSec = 1000000;
 
-    sprintf((char*)asn1Transform.metadata.childFrameId.arr, "RoverBodyFrame");
+    sprintf((char*)asn1Transform.metadata.childFrameId.arr, "GPSFrame");
     asn1Transform.metadata.childFrameId.nCount = strlen((char*)asn1Transform.metadata.childFrameId.arr) + 1;
     asn1Transform.metadata.childTime.microseconds  = timeNow;
     asn1Transform.metadata.childTime.usecPerSec = 1000000;
@@ -282,7 +282,7 @@ namespace infuse_novatel_gps_driver
     asn1Transform.metadata.parentTime.microseconds = timeNow;
     asn1Transform.metadata.parentTime.usecPerSec = 1000000;
 
-    sprintf((char*)asn1Transform.metadata.childFrameId.arr, "RoverBodyFrame");
+    sprintf((char*)asn1Transform.metadata.childFrameId.arr, "GPSFrame");
     asn1Transform.metadata.childFrameId.nCount = strlen((char*)asn1Transform.metadata.childFrameId.arr) + 1;
     asn1Transform.metadata.childTime.microseconds  = timeNow;
     asn1Transform.metadata.childTime.usecPerSec = 1000000;
