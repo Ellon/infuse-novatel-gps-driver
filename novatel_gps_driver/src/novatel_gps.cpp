@@ -1012,10 +1012,9 @@ namespace infuse_novatel_gps_driver
       case BestutmParser::MESSAGE_ID:
       {
         // infuse_novatel_gps_msgs::NovatelUtmPositionPtr utm_position = bestutm_parser_.ParseBinary(msg);
-        long long time_usecs;
+        long long time_usecs = stamp.toNSec() / 1000 ;
         infuse_msgs::asn1_bitstreamPtr utm_position = bestutm_parser_.ParseBinary(msg, time_usecs);
-
-        utm_position->header.stamp.fromNSec( ((uint64_t)time_usecs) * 1000 );
+        utm_position->header.stamp = stamp;
         novatel_utm_positions_.push_back(utm_position);
         break;
       }
@@ -1184,9 +1183,9 @@ namespace infuse_novatel_gps_driver
     if (sentence.id == "BESTUTMA")
     {
       // infuse_novatel_gps_msgs::NovatelUtmPositionPtr utm_position = bestutm_parser_.ParseAscii(sentence);
-      long long time_usecs;
+      long long time_usecs = stamp.toNSec() / 1000 ;
       infuse_msgs::asn1_bitstreamPtr utm_position = bestutm_parser_.ParseAscii(sentence, time_usecs);
-      utm_position->header.stamp.fromNSec( ((uint64_t)time_usecs) * 1000 );
+      utm_position->header.stamp = stamp;
       novatel_utm_positions_.push_back(utm_position);
     }
     else if (sentence.id == "BESTVELA")

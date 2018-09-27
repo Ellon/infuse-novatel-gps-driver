@@ -52,7 +52,7 @@ namespace infuse_novatel_gps_driver
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
-  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg, long long &time_usec) throw(ParseException)
+  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg, long long time_usec) throw(ParseException)
   {
     if (bin_msg.data_.size() != BINARY_LENGTH)
     {
@@ -60,10 +60,6 @@ namespace infuse_novatel_gps_driver
       error << "Unexpected BESTUTM message length: " << bin_msg.data_.size();
       throw ParseException(error.str());
     }
-
-    struct timeval tv;
-    gettimeofday(&tv,NULL);
-    time_usec = tv.tv_sec*1000000 + tv.tv_usec;
 
     asn1SccTransformWithCovariance asn1Transform;
     asn1SccTransformWithCovariance_Initialize(&asn1Transform);
@@ -200,7 +196,7 @@ namespace infuse_novatel_gps_driver
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
-  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseAscii(const NovatelSentence& sentence, long long &time_usec) throw(ParseException)
+  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseAscii(const NovatelSentence& sentence, long long time_usec) throw(ParseException)
   {
     // infuse_msgs::asn1_bitstreamPtr msg =
     //     boost::make_shared<infuse_msgs::asn1_bitstream>();
@@ -264,10 +260,6 @@ namespace infuse_novatel_gps_driver
     {
       throw ParseException("Invalid field in BESTUTM message");
     }
-
-    struct timeval tv;
-    gettimeofday(&tv,NULL);
-    time_usec = tv.tv_sec*1000000 + tv.tv_usec;
 
     asn1SccTransformWithCovariance asn1Transform;
     asn1SccTransformWithCovariance_Initialize(&asn1Transform);
