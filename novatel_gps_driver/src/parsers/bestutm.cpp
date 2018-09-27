@@ -52,7 +52,7 @@ namespace infuse_novatel_gps_driver
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
-  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
+  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg, long long &time_usec) throw(ParseException)
   {
     if (bin_msg.data_.size() != BINARY_LENGTH)
     {
@@ -63,7 +63,7 @@ namespace infuse_novatel_gps_driver
 
     struct timeval tv;
     gettimeofday(&tv,NULL);
-    long long timeNow = tv.tv_sec*1000000 + tv.tv_usec;
+    time_usec = tv.tv_sec*1000000 + tv.tv_usec;
 
     asn1SccTransformWithCovariance asn1Transform;
     asn1SccTransformWithCovariance_Initialize(&asn1Transform);
@@ -75,12 +75,12 @@ namespace infuse_novatel_gps_driver
 
     sprintf((char*)asn1Transform.metadata.parentFrameId.arr, "GlobalTerrainFrame");
     asn1Transform.metadata.parentFrameId.nCount = strlen((char*)asn1Transform.metadata.parentFrameId.arr) + 1;
-    asn1Transform.metadata.parentTime.microseconds = timeNow;
+    asn1Transform.metadata.parentTime.microseconds = time_usec;
     asn1Transform.metadata.parentTime.usecPerSec = 1000000;
 
     sprintf((char*)asn1Transform.metadata.childFrameId.arr, "GPSFrame");
     asn1Transform.metadata.childFrameId.nCount = strlen((char*)asn1Transform.metadata.childFrameId.arr) + 1;
-    asn1Transform.metadata.childTime.microseconds  = timeNow;
+    asn1Transform.metadata.childTime.microseconds  = time_usec;
     asn1Transform.metadata.childTime.usecPerSec = 1000000;
 
     double easting = ParseDouble(&bin_msg.data_[24]);
@@ -200,7 +200,7 @@ namespace infuse_novatel_gps_driver
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
-  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
+  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseAscii(const NovatelSentence& sentence, long long &time_usec) throw(ParseException)
   {
     // infuse_msgs::asn1_bitstreamPtr msg =
     //     boost::make_shared<infuse_msgs::asn1_bitstream>();
@@ -267,7 +267,7 @@ namespace infuse_novatel_gps_driver
 
     struct timeval tv;
     gettimeofday(&tv,NULL);
-    long long timeNow = tv.tv_sec*1000000 + tv.tv_usec;
+    time_usec = tv.tv_sec*1000000 + tv.tv_usec;
 
     asn1SccTransformWithCovariance asn1Transform;
     asn1SccTransformWithCovariance_Initialize(&asn1Transform);
@@ -279,12 +279,12 @@ namespace infuse_novatel_gps_driver
 
     sprintf((char*)asn1Transform.metadata.parentFrameId.arr, "GlobalTerrainFrame");
     asn1Transform.metadata.parentFrameId.nCount = strlen((char*)asn1Transform.metadata.parentFrameId.arr) + 1;
-    asn1Transform.metadata.parentTime.microseconds = timeNow;
+    asn1Transform.metadata.parentTime.microseconds = time_usec;
     asn1Transform.metadata.parentTime.usecPerSec = 1000000;
 
     sprintf((char*)asn1Transform.metadata.childFrameId.arr, "GPSFrame");
     asn1Transform.metadata.childFrameId.nCount = strlen((char*)asn1Transform.metadata.childFrameId.arr) + 1;
-    asn1Transform.metadata.childTime.microseconds  = timeNow;
+    asn1Transform.metadata.childTime.microseconds  = time_usec;
     asn1Transform.metadata.childTime.usecPerSec = 1000000;
 
     asn1Transform.data.translation.arr[0] = easting;
