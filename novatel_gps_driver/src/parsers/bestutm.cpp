@@ -206,7 +206,6 @@ namespace infuse_novatel_gps_driver
     utm_data_fs << time_usec << " "
                 << asn1Transform.metadata.parentTime.microseconds << " "
                 << asn1Transform.metadata.childTime.microseconds << " "
-                << asn1Transform.metadata.parentTime.microseconds << " "
                 << asn1Transform.data.translation.arr[0] << " " // x
                 << asn1Transform.data.translation.arr[1] << " " // y
                 << asn1Transform.data.translation.arr[2] << " " // z

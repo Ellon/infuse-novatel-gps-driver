@@ -776,7 +776,8 @@ namespace infuse_novatel_gps_driver
 
           struct timeval tv;
           gettimeofday(&tv, NULL);
-          publish_time_fs << ((tv.tv_sec * 1e6) + tv.tv_usec) << std::endl;
+          long long time = (tv.tv_sec * 1e6) + tv.tv_usec;
+          publish_time_fs << time << std::endl;
 
           novatel_utm_pub_.publish(msg);
         }
