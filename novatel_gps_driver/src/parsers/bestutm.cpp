@@ -41,6 +41,17 @@ namespace infuse_novatel_gps_driver
 {
   const std::string BestutmParser::MESSAGE_NAME = "BESTUTM";
 
+  BestutmParser::BestutmParser()
+  {
+    utm_data_fs.open("gps_utm_data.txt");
+    utm_data_fs << "# ROSTime, parentTime, childTime, x, y, z, qw, qx, qy, qz" << std::endl;
+  }
+
+  BestutmParser::~BestutmParser()
+  {
+    utm_data_fs.close();
+  }
+
   uint32_t BestutmParser::GetMessageId() const
   {
     return MESSAGE_ID;
@@ -191,6 +202,19 @@ namespace infuse_novatel_gps_driver
     // GetExtendedSolutionStatusMessage(bin_msg.data_[77],
     //                                  ros_msg->extended_solution_status);
     // GetSignalsUsed(bin_msg.data_[78], ros_msg->signal_mask);
+
+    utm_data_fs << time_usec << " "
+                << asn1Transform.metadata.parentTime.microseconds << " "
+                << asn1Transform.metadata.childTime.microseconds << " "
+                << asn1Transform.metadata.parentTime.microseconds << " "
+                << asn1Transform.data.translation.arr[0] << " " // x
+                << asn1Transform.data.translation.arr[1] << " " // y
+                << asn1Transform.data.translation.arr[2] << " " // z
+                << asn1Transform.data.orientation.arr[3] << " " // qw
+                << asn1Transform.data.orientation.arr[0] << " " // qx
+                << asn1Transform.data.orientation.arr[1] << " " // qy
+                << asn1Transform.data.orientation.arr[2]        // qz
+                << std::endl;
 
     return ros_msg;
   }

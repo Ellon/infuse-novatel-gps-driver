@@ -36,12 +36,16 @@
 #include <infuse_novatel_gps_driver/parsers/parsing_utils.h>
 #include <infuse_novatel_gps_driver/parsers/message_parser.h>
 
+#include <fstream>
+
 namespace infuse_novatel_gps_driver
 {
   // class BestutmParser : public MessageParser<infuse_novatel_gps_msgs::NovatelUtmPositionPtr>
   class BestutmParser : public MessageParser<infuse_msgs::asn1_bitstreamPtr>
   {
   public:
+    BestutmParser();
+    virtual ~BestutmParser();
     uint32_t GetMessageId() const override;
 
     const std::string GetMessageName() const override;
@@ -56,6 +60,8 @@ namespace infuse_novatel_gps_driver
     static constexpr size_t BINARY_LENGTH = 80;
     static constexpr size_t ASCII_LENGTH = 23;
     static const std::string MESSAGE_NAME;
+
+    std::ofstream utm_data_fs;
   };
 }
 

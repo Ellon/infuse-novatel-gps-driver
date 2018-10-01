@@ -212,6 +212,7 @@ namespace infuse_novatel_gps_driver
     ~NovatelGpsNodelet()
     {
       gps_.Disconnect();
+      publish_time_fs.close();
     }
 
     /**
@@ -351,6 +352,10 @@ namespace infuse_novatel_gps_driver
 
       thread_ = boost::thread(&NovatelGpsNodelet::Spin, this);
       NODELET_INFO("%s initialized", hw_id_.c_str());
+
+      publish_time_fs.open("gps_publish_time.txt");
+      publish_time_fs << "# PublishTime" << std::endl;
+
     }
 
     void SyncCallback(const std_msgs::TimeConstPtr& sync)
@@ -586,6 +591,8 @@ namespace infuse_novatel_gps_driver
     std::string imu_frame_id_;
     std::string frame_id_;
 
+    std::ofstream publish_time_fs;
+
     /**
      * @brief Service request to reset the gps through FRESET
      */
@@ -766,6 +773,11 @@ namespace infuse_novatel_gps_driver
         {
           msg->header.stamp += sync_offset;
           msg->header.frame_id = frame_id_;
+
+          struct timeval tv;
+          gettimeofday(&tv, NULL);
+          publish_time_fs << ((tv.tv_sec * 1e6) + tv.tv_usec) << std::endl;
+
           novatel_utm_pub_.publish(msg);
         }
       }
