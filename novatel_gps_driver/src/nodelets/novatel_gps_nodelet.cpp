@@ -354,6 +354,7 @@ namespace infuse_novatel_gps_driver
       NODELET_INFO("%s initialized", hw_id_.c_str());
 
       publish_time_fs.open("/home/infuse/tests/gps_publish_time.txt");
+      publish_time_fs.precision(16);
       publish_time_fs << "# PublishTime" << std::endl;
 
     }
