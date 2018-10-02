@@ -384,10 +384,10 @@ namespace infuse_novatel_gps_driver
       }
 
       NovatelMessageOpts opts;
-      opts["gpgga"] = polling_period_;
-      opts["gprmc"] = polling_period_;
-      opts["bestpos" + format_suffix] = polling_period_;  // Best position
-      opts["time" + format_suffix] = 1.0;  // Time
+      // opts["gpgga"] = polling_period_;
+      // opts["gprmc"] = polling_period_;
+      // opts["bestpos" + format_suffix] = polling_period_;  // Best position
+      // opts["time" + format_suffix] = 1.0;  // Time
 
       if (publish_novatel_utm_positions_)
       {
