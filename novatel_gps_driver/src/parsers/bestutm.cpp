@@ -45,7 +45,7 @@ namespace infuse_novatel_gps_driver
   {
     utm_data_fs.open("/home/infuse/tests/gps_utm_data.txt");
     utm_data_fs.precision(16);
-    utm_data_fs << "# ROSTime, parentTime, childTime, x, y, z, qw, qx, qy, qz" << std::endl;
+    utm_data_fs << "#ROSTime parentTime childTime x y z qw qx qy qz" << std::endl;
   }
 
   BestutmParser::~BestutmParser()
