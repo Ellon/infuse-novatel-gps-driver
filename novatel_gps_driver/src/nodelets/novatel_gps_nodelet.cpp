@@ -353,7 +353,7 @@ namespace infuse_novatel_gps_driver
       thread_ = boost::thread(&NovatelGpsNodelet::Spin, this);
       NODELET_INFO("%s initialized", hw_id_.c_str());
 
-      publish_time_fs.open("gps_publish_time.txt");
+      publish_time_fs.open("/home/infuse/tests/gps_publish_time.txt");
       publish_time_fs << "# PublishTime" << std::endl;
 
     }
