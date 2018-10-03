@@ -677,7 +677,7 @@ namespace infuse_novatel_gps_driver
 
       // Increment the measurement count by the number of messages we just
       // read
-      measurement_count_ += gpgga_msgs.size();
+      measurement_count_ += utm_msgs.size();
 
       // If there are new position messages, store the most recent
       if (!position_msgs.empty())
