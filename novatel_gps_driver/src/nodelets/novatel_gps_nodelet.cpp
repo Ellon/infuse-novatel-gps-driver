@@ -711,7 +711,6 @@ namespace infuse_novatel_gps_driver
       // an acculumator of their offset, which is used to
       // calculate a rolling mean of the offset to apply to all messages
       ros::Duration sync_offset(0); // If no TimeSyncs, assume 0 offset
-      std::cout << "last_sync_ = " << last_sync_ << std::endl;
       if (last_sync_ != ros::TIME_MIN)
       {
         sync_offset = ros::Duration(stats::rolling_mean(rolling_offset_));
@@ -771,7 +770,6 @@ namespace infuse_novatel_gps_driver
 
       if (publish_novatel_utm_positions_)
       {
-        std::cout << "sync_offset = " << sync_offset << std::endl;
         for (const auto& msg : utm_msgs)
         {
           msg->header.stamp += sync_offset;
