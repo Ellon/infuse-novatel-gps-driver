@@ -77,6 +77,7 @@ namespace infuse_novatel_gps_driver
     asn1SccTransformWithCovariance_Initialize(&asn1Transform);
 
     asn1Transform.metadata.msgVersion = transformWithCovariance_version;
+    asn1.metadata.dataEstimated = {1,1,1,0,0,0,0}; // We only supply information about position
 
     sprintf((char*)asn1Transform.metadata.producerId.arr, "novatel_gps_driver");
     asn1Transform.metadata.producerId.nCount = strlen((char*)asn1Transform.metadata.producerId.arr) + 1;
