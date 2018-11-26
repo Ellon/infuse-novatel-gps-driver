@@ -299,7 +299,7 @@ namespace infuse_novatel_gps_driver
       { 
         // novatel_utm_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelUtmPosition>(node, "bestutm", 100);
         novatel_utm_pub_ = swri::advertise<infuse_msgs::asn1_bitstream>(node, "bestutm_infuse", 100);
-        novatel_pos_type_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelPositionOrVelocityType>(node, "bestutm_pos_type", 100);
+        novatel_utm_info_pub_ = swri::advertise<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfo>(node, "bestutm_info", 100);
       }
 
       if (publish_novatel_velocity_)
@@ -542,7 +542,7 @@ namespace infuse_novatel_gps_driver
     ros::Publisher novatel_imu_pub_;
     ros::Publisher novatel_position_pub_;
     ros::Publisher novatel_utm_pub_;
-    ros::Publisher novatel_pos_type_pub_;
+    ros::Publisher novatel_utm_info_pub_;
     ros::Publisher novatel_velocity_pub_;
     ros::Publisher gpgga_pub_;
     ros::Publisher gpgsv_pub_;
@@ -633,7 +633,7 @@ namespace infuse_novatel_gps_driver
       std::vector<infuse_novatel_gps_msgs::NovatelPositionPtr> position_msgs;
       // std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> utm_msgs;
       std::vector<infuse_msgs::asn1_bitstreamPtr> utm_msgs;
-      std::vector<infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr> pos_type_msgs;
+      std::vector<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr> utm_info_msgs;
       std::vector<gps_common::GPSFixPtr> fix_msgs;
       std::vector<infuse_novatel_gps_msgs::GpggaPtr> gpgga_msgs;
       std::vector<infuse_novatel_gps_msgs::GprmcPtr> gprmc_msgs;
@@ -676,7 +676,7 @@ namespace infuse_novatel_gps_driver
       gps_.GetGprmcMessages(gprmc_msgs);
       gps_.GetNovatelPositions(position_msgs);
       gps_.GetNovatelUtmPositions(utm_msgs);
-      gps_.GetNovatelPosTypes(pos_type_msgs);
+      gps_.GetNovatelUtmInfos(utm_info_msgs);
       gps_.GetFixMessages(fix_msgs);
 
       // Increment the measurement count by the number of messages we just
@@ -786,12 +786,12 @@ namespace infuse_novatel_gps_driver
           publish_time_fs << time << std::endl;
         }
 
-        for (const auto& msg : pos_type_msgs)
+        for (const auto& msg : utm_info_msgs)
         {
           msg->header.stamp += sync_offset;
           msg->header.frame_id = frame_id_;
 
-          novatel_pos_type_pub_.publish(msg);
+          novatel_utm_info_pub_.publish(msg);
         }
 
       }
