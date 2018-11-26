@@ -64,7 +64,8 @@ namespace infuse_novatel_gps_driver
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
-  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg, long long time_usec) throw(ParseException)
+  std::pair<infuse_msgs::asn1_bitstreamPtr, infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr>
+  BestutmParser::ParseBinary(const BinaryMessage& bin_msg, long long time_usec) throw(ParseException)
   {
     if (bin_msg.data_.size() != BINARY_LENGTH)
     {
@@ -205,6 +206,12 @@ namespace infuse_novatel_gps_driver
     //                                  ros_msg->extended_solution_status);
     // GetSignalsUsed(bin_msg.data_[78], ros_msg->signal_mask);
 
+    infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr pos_type_msg = boost::make_shared<infuse_novatel_gps_msgs::NovatelPositionOrVelocityType>();
+
+    pos_type_msg->header = ros_msg->header;
+    pos_type_msg->type_binary = ParseUInt16(&bin_msg.data_[4]);
+    pos_type_msg->type_ascii = ParsePosTypeAsString(ParseUInt16(&bin_msg.data_[4]));
+
     utm_data_fs << time_usec << " "
                 << asn1Transform.metadata.parentTime.microseconds << " "
                 << asn1Transform.metadata.childTime.microseconds << " "
@@ -220,11 +227,12 @@ namespace infuse_novatel_gps_driver
                 << height_sigma                                 // sig_z
                 << std::endl;
 
-    return ros_msg;
+    return std::make_pair(ros_msg, pos_type_msg);
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
-  infuse_msgs::asn1_bitstreamPtr BestutmParser::ParseAscii(const NovatelSentence& sentence, long long time_usec) throw(ParseException)
+  std::pair<infuse_msgs::asn1_bitstreamPtr, infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr>
+  BestutmParser::ParseAscii(const NovatelSentence& sentence, long long time_usec) throw(ParseException)
   {
     // infuse_msgs::asn1_bitstreamPtr msg =
     //     boost::make_shared<infuse_msgs::asn1_bitstream>();
@@ -361,6 +369,76 @@ namespace infuse_novatel_gps_driver
     ros_msg->data.assign(bstream.buf, bstream.buf + BitStream_GetLength(&bstream));
 
 
-    return ros_msg;
+    infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr pos_type_msg = boost::make_shared<infuse_novatel_gps_msgs::NovatelPositionOrVelocityType>();
+
+    pos_type_msg->header = ros_msg->header;
+    ParseUInt16(sentence.body[1], pos_type_msg->type_binary);
+    pos_type_msg->type_ascii = ParsePosTypeAsString(pos_type_msg->type_binary);
+
+
+    return std::make_pair(ros_msg, pos_type_msg);
+  }
+
+  std::string BestutmParser::ParsePosTypeAsString(uint16_t type_binary)
+  {
+    // Deal first with simple cases
+    switch (type_binary) {
+    case 0:
+        return std::string("NONE");
+    case 1:
+        return std::string("FIXEDPOS");
+    case 2:
+        return std::string("FIXEDHEIGHT");
+    case 8:
+        return std::string("DOPPLER_VELOCITY");
+    case 16:
+        return std::string("SINGLE");
+    case 17:
+        return std::string("PSRDIFF");
+    case 18:
+        return std::string("WAAS");
+    case 19:
+        return std::string("PROPAGATED");
+    case 20:
+        return std::string("OMNISTAR");
+    case 32:
+        return std::string("L1_FLOAT");
+    case 33:
+        return std::string("IONOFREE_FLOAT");
+    case 34:
+        return std::string("NARROW_FLOAT");
+    case 48:
+        return std::string("L1_INT");
+    case 49:
+        return std::string("WIDE_INT");
+    case 50:
+        return std::string("NARROW_INT");
+    case 51:
+        return std::string("RTK_DIRECT_INS");
+    case 64:
+        return std::string("OMNISTAR_HP");
+    case 65:
+        return std::string("OMNISTAR_XP");
+    case 66:
+        return std::string("CDGPS");
+    default:
+        break;
+    }
+
+    // deal with the slighter complicated cases
+    if (type_binary >= 3 and type_binary <= 7)
+        return std::string("Reserved");
+
+    if (type_binary >= 9 and type_binary <= 15)
+        return std::string("Reserved");
+
+    if (type_binary >= 21 and type_binary <= 31)
+        return std::string("Reserved");
+
+    if (type_binary >= 52 and type_binary <= 56)
+        return std::string("INS calculated");
+
+    // If we get here we have an error
+    return std::string("ERROR_ASCII_TYPE_NOT_KNOWN");
   }
 };

@@ -65,6 +65,7 @@ namespace infuse_novatel_gps_driver
       insstdev_msgs_(MAX_BUFFER_SIZE),
       novatel_positions_(MAX_BUFFER_SIZE),
       novatel_utm_positions_(MAX_BUFFER_SIZE),
+      novatel_pos_types_(MAX_BUFFER_SIZE),
       novatel_velocities_(MAX_BUFFER_SIZE),
       position_sync_buffer_(SYNC_BUFFER_SIZE),
       range_msgs_(MAX_BUFFER_SIZE),
@@ -300,6 +301,13 @@ namespace infuse_novatel_gps_driver
     utm_positions.clear();
     utm_positions.insert(utm_positions.end(), novatel_utm_positions_.begin(), novatel_utm_positions_.end());
     novatel_utm_positions_.clear();
+  }
+
+  void NovatelGps::GetNovatelPosTypes(std::vector<infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr>& pos_types)
+  {
+    pos_types.clear();
+    pos_types.insert(pos_types.end(), novatel_pos_types_.begin(), novatel_pos_types_.end());
+    novatel_pos_types_.clear();
   }
 
   void NovatelGps::GetNovatelVelocities(std::vector<infuse_novatel_gps_msgs::NovatelVelocityPtr>& velocities)
@@ -1013,9 +1021,13 @@ namespace infuse_novatel_gps_driver
       {
         // infuse_novatel_gps_msgs::NovatelUtmPositionPtr utm_position = bestutm_parser_.ParseBinary(msg);
         long long time_usecs = stamp.toNSec() / 1000 ;
-        infuse_msgs::asn1_bitstreamPtr utm_position = bestutm_parser_.ParseBinary(msg, time_usecs);
+        infuse_msgs::asn1_bitstreamPtr utm_position;
+        infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr pos_type;
+        std::tie(utm_position, pos_type) = bestutm_parser_.ParseBinary(msg, time_usecs);
         utm_position->header.stamp = stamp;
+        pos_type->header.stamp = stamp;
         novatel_utm_positions_.push_back(utm_position);
+        novatel_pos_types_.push_back(pos_type);
         break;
       }
       case BestvelParser::MESSAGE_ID:
@@ -1184,9 +1196,13 @@ namespace infuse_novatel_gps_driver
     {
       // infuse_novatel_gps_msgs::NovatelUtmPositionPtr utm_position = bestutm_parser_.ParseAscii(sentence);
       long long time_usecs = stamp.toNSec() / 1000 ;
-      infuse_msgs::asn1_bitstreamPtr utm_position = bestutm_parser_.ParseAscii(sentence, time_usecs);
+      infuse_msgs::asn1_bitstreamPtr utm_position;
+      infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr pos_type;
+      std::tie(utm_position, pos_type) = bestutm_parser_.ParseAscii(sentence, time_usecs);
       utm_position->header.stamp = stamp;
+      pos_type->header.stamp = stamp;
       novatel_utm_positions_.push_back(utm_position);
+      novatel_pos_types_.push_back(pos_type);
     }
     else if (sentence.id == "BESTVELA")
     {

@@ -115,7 +115,7 @@
  * \e reconnect_delay_s <tt>bool</t> - If the driver is disconnected from the
  *    device, how long (in seconds) to wait between reconnect attempts. [0.5]
  * \e use_binary_message <tt>bool</tt> - If set true, the driver requests
- *    binary NovAtel messages from the device; if false, it requests ASCII
+ *    binary Novatel messages from the device; if false, it requests ASCII
  *    messages.  [false]
  * \e wait_for_position <tt>bool</tt> - Wait for BESTPOS messages to arrive
  *    before publishing GPSFix messages. [false]
@@ -299,6 +299,7 @@ namespace infuse_novatel_gps_driver
       { 
         // novatel_utm_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelUtmPosition>(node, "bestutm", 100);
         novatel_utm_pub_ = swri::advertise<infuse_msgs::asn1_bitstream>(node, "bestutm_infuse", 100);
+        novatel_pos_type_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelPositionOrVelocityType>(node, "bestutm_pos_type", 100);
       }
 
       if (publish_novatel_velocity_)
@@ -374,7 +375,7 @@ namespace infuse_novatel_gps_driver
       std::string format_suffix;
       if (use_binary_messages_)
       {
-        // NovAtel logs in binary format always end with "b", while ones in
+        // Novatel logs in binary format always end with "b", while ones in
         // ASCII format always end in "a".
         format_suffix = "b";
       }
@@ -541,6 +542,7 @@ namespace infuse_novatel_gps_driver
     ros::Publisher novatel_imu_pub_;
     ros::Publisher novatel_position_pub_;
     ros::Publisher novatel_utm_pub_;
+    ros::Publisher novatel_pos_type_pub_;
     ros::Publisher novatel_velocity_pub_;
     ros::Publisher gpgga_pub_;
     ros::Publisher gpgsv_pub_;
@@ -631,6 +633,7 @@ namespace infuse_novatel_gps_driver
       std::vector<infuse_novatel_gps_msgs::NovatelPositionPtr> position_msgs;
       // std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> utm_msgs;
       std::vector<infuse_msgs::asn1_bitstreamPtr> utm_msgs;
+      std::vector<infuse_novatel_gps_msgs::NovatelPositionOrVelocityTypePtr> pos_type_msgs;
       std::vector<gps_common::GPSFixPtr> fix_msgs;
       std::vector<infuse_novatel_gps_msgs::GpggaPtr> gpgga_msgs;
       std::vector<infuse_novatel_gps_msgs::GprmcPtr> gprmc_msgs;
@@ -673,6 +676,7 @@ namespace infuse_novatel_gps_driver
       gps_.GetGprmcMessages(gprmc_msgs);
       gps_.GetNovatelPositions(position_msgs);
       gps_.GetNovatelUtmPositions(utm_msgs);
+      gps_.GetNovatelPosTypes(pos_type_msgs);
       gps_.GetFixMessages(fix_msgs);
 
       // Increment the measurement count by the number of messages we just
@@ -781,6 +785,15 @@ namespace infuse_novatel_gps_driver
           novatel_utm_pub_.publish(msg);
           publish_time_fs << time << std::endl;
         }
+
+        for (const auto& msg : pos_type_msgs)
+        {
+          msg->header.stamp += sync_offset;
+          msg->header.frame_id = frame_id_;
+
+          novatel_pos_type_pub_.publish(msg);
+        }
+
       }
 
       if (publish_novatel_velocity_)
