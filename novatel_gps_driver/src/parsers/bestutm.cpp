@@ -225,6 +225,9 @@ namespace infuse_novatel_gps_driver
       throw ParseException(error.str());
     }
     ros_info_msg->position_type = POSITION_TYPES[pos_type];
+    ros_info_msg->northing_sigma = ParseFloat(&bin_msg.data_[48]);
+    ros_info_msg->easting_sigma = ParseFloat(&bin_msg.data_[52]);
+    ros_info_msg->height_sigma = ParseFloat(&bin_msg.data_[56]);
 
     utm_data_fs << time_usec << " "
                 << asn1Transform.metadata.parentTime.microseconds << " "
@@ -388,6 +391,9 @@ namespace infuse_novatel_gps_driver
     ros_info_msg->header = ros_msg->header;
     ros_info_msg->solution_status = sentence.body[0];
     ros_info_msg->position_type = sentence.body[1];
+    ParseFloat(sentence.body[9], ros_info_msg->northing_sigma);
+    ParseFloat(sentence.body[10], ros_info_msg->easting_sigma);
+    ParseFloat(sentence.body[11], ros_info_msg->height_sigma);
 
     return std::make_pair(ros_msg, ros_info_msg);
   }
