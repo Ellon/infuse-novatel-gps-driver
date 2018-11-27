@@ -26,7 +26,7 @@ add_message_files(DIRECTORY msg FILES
   NovatelExtendedSolutionStatus.msg
   NovatelMessageHeader.msg
   NovatelPosition.msg
-  SolutionStatusPositionTypeInfo.msg
+  UtmInfo.msg
   NovatelUtmPosition.msg
   NovatelReceiverStatus.msg
   NovatelSignalMask.msg

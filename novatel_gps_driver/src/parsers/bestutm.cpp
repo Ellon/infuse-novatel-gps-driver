@@ -64,7 +64,7 @@ namespace infuse_novatel_gps_driver
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseBinary(const BinaryMessage& bin_msg) throw(ParseException)
-  std::pair<infuse_msgs::asn1_bitstreamPtr, infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr>
+  std::pair<infuse_msgs::asn1_bitstreamPtr, infuse_novatel_gps_msgs::UtmInfoPtr>
   BestutmParser::ParseBinary(const BinaryMessage& bin_msg, long long time_usec) throw(ParseException)
   {
     if (bin_msg.data_.size() != BINARY_LENGTH)
@@ -206,9 +206,9 @@ namespace infuse_novatel_gps_driver
     //                                  ros_msg->extended_solution_status);
     // GetSignalsUsed(bin_msg.data_[78], ros_msg->signal_mask);
 
-    infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr pos_type_msg = boost::make_shared<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfo>();
+    infuse_novatel_gps_msgs::UtmInfoPtr ros_info_msg = boost::make_shared<infuse_novatel_gps_msgs::UtmInfo>();
 
-    pos_type_msg->header = ros_msg->header;
+    ros_info_msg->header = ros_msg->header;
     uint16_t solution_status = ParseUInt16(&bin_msg.data_[0]);
     if (solution_status > MAX_SOLUTION_STATUS)
     {
@@ -216,7 +216,7 @@ namespace infuse_novatel_gps_driver
       error << "Unknown solution status: " << solution_status;
       throw ParseException(error.str());
     }
-    pos_type_msg->solution_status = SOLUTION_STATUSES[solution_status];
+    ros_info_msg->solution_status = SOLUTION_STATUSES[solution_status];
     uint16_t pos_type = ParseUInt16(&bin_msg.data_[4]);
     if (pos_type > MAX_POSITION_TYPE)
     {
@@ -224,7 +224,7 @@ namespace infuse_novatel_gps_driver
       error << "Unknown position type: " << pos_type;
       throw ParseException(error.str());
     }
-    pos_type_msg->position_type = POSITION_TYPES[pos_type];
+    ros_info_msg->position_type = POSITION_TYPES[pos_type];
 
     utm_data_fs << time_usec << " "
                 << asn1Transform.metadata.parentTime.microseconds << " "
@@ -241,11 +241,11 @@ namespace infuse_novatel_gps_driver
                 << height_sigma                                 // sig_z
                 << std::endl;
 
-    return std::make_pair(ros_msg, pos_type_msg);
+    return std::make_pair(ros_msg, ros_info_msg);
   }
 
   // infuse_novatel_gps_msgs::NovatelUtmPositionPtr BestutmParser::ParseAscii(const NovatelSentence& sentence) throw(ParseException)
-  std::pair<infuse_msgs::asn1_bitstreamPtr, infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr>
+  std::pair<infuse_msgs::asn1_bitstreamPtr, infuse_novatel_gps_msgs::UtmInfoPtr>
   BestutmParser::ParseAscii(const NovatelSentence& sentence, long long time_usec) throw(ParseException)
   {
     // infuse_msgs::asn1_bitstreamPtr msg =
@@ -383,12 +383,12 @@ namespace infuse_novatel_gps_driver
     ros_msg->data.assign(bstream.buf, bstream.buf + BitStream_GetLength(&bstream));
 
 
-    infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr pos_type_msg = boost::make_shared<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfo>();
+    infuse_novatel_gps_msgs::UtmInfoPtr ros_info_msg = boost::make_shared<infuse_novatel_gps_msgs::UtmInfo>();
 
-    pos_type_msg->header = ros_msg->header;
-    pos_type_msg->solution_status = sentence.body[0];
-    pos_type_msg->position_type = sentence.body[1];
+    ros_info_msg->header = ros_msg->header;
+    ros_info_msg->solution_status = sentence.body[0];
+    ros_info_msg->position_type = sentence.body[1];
 
-    return std::make_pair(ros_msg, pos_type_msg);
+    return std::make_pair(ros_msg, ros_info_msg);
   }
 };

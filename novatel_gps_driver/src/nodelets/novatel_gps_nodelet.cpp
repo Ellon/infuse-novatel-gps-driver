@@ -299,7 +299,7 @@ namespace infuse_novatel_gps_driver
       { 
         // novatel_utm_pub_ = swri::advertise<infuse_novatel_gps_msgs::NovatelUtmPosition>(node, "bestutm", 100);
         novatel_utm_pub_ = swri::advertise<infuse_msgs::asn1_bitstream>(node, "bestutm_infuse", 100);
-        novatel_utm_info_pub_ = swri::advertise<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfo>(node, "bestutm_info", 100);
+        novatel_utm_info_pub_ = swri::advertise<infuse_novatel_gps_msgs::UtmInfo>(node, "bestutm_info", 100);
       }
 
       if (publish_novatel_velocity_)
@@ -633,7 +633,7 @@ namespace infuse_novatel_gps_driver
       std::vector<infuse_novatel_gps_msgs::NovatelPositionPtr> position_msgs;
       // std::vector<infuse_novatel_gps_msgs::NovatelUtmPositionPtr> utm_msgs;
       std::vector<infuse_msgs::asn1_bitstreamPtr> utm_msgs;
-      std::vector<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr> utm_info_msgs;
+      std::vector<infuse_novatel_gps_msgs::UtmInfoPtr> utm_info_msgs;
       std::vector<gps_common::GPSFixPtr> fix_msgs;
       std::vector<infuse_novatel_gps_msgs::GpggaPtr> gpgga_msgs;
       std::vector<infuse_novatel_gps_msgs::GprmcPtr> gprmc_msgs;

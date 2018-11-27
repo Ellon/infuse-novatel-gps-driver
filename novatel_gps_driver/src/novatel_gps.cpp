@@ -303,7 +303,7 @@ namespace infuse_novatel_gps_driver
     novatel_utm_positions_.clear();
   }
 
-  void NovatelGps::GetNovatelUtmInfos(std::vector<infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr>& utm_infos)
+  void NovatelGps::GetNovatelUtmInfos(std::vector<infuse_novatel_gps_msgs::UtmInfoPtr>& utm_infos)
   {
     utm_infos.clear();
     utm_infos.insert(utm_infos.end(), novatel_utm_infos_.begin(), novatel_utm_infos_.end());
@@ -1022,7 +1022,7 @@ namespace infuse_novatel_gps_driver
         // infuse_novatel_gps_msgs::NovatelUtmPositionPtr utm_position = bestutm_parser_.ParseBinary(msg);
         long long time_usecs = stamp.toNSec() / 1000 ;
         infuse_msgs::asn1_bitstreamPtr utm_position;
-        infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr utm_info;
+        infuse_novatel_gps_msgs::UtmInfoPtr utm_info;
         std::tie(utm_position, utm_info) = bestutm_parser_.ParseBinary(msg, time_usecs);
         utm_position->header.stamp = stamp;
         utm_info->header.stamp = stamp;
@@ -1197,7 +1197,7 @@ namespace infuse_novatel_gps_driver
       // infuse_novatel_gps_msgs::NovatelUtmPositionPtr utm_position = bestutm_parser_.ParseAscii(sentence);
       long long time_usecs = stamp.toNSec() / 1000 ;
       infuse_msgs::asn1_bitstreamPtr utm_position;
-      infuse_novatel_gps_msgs::SolutionStatusPositionTypeInfoPtr utm_info;
+      infuse_novatel_gps_msgs::UtmInfoPtr utm_info;
       std::tie(utm_position, utm_info) = bestutm_parser_.ParseAscii(sentence, time_usecs);
       utm_position->header.stamp = stamp;
       utm_info->header.stamp = stamp;

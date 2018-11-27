@@ -1,3 +1,0 @@
-Header header
-string solution_status
-string position_type

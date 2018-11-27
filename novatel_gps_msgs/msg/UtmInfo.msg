@@ -1,0 +1,6 @@
+Header header
+string solution_status
+string position_type
+float32 easting_sigma
+float32 northing_sigma
+float32 height_sigma
